@@ -67,12 +67,12 @@ app.clientside_callback(
             marker: {
                 size: filteredData.performance,
                 color: filteredData.gpuCount,
-                colorscale: 'Viridis',
-                colorbar: {
-                    title: 'GPU Count',
-                    tickvals: [1, 2, 3, 4],
-                    ticktext: ['1', '2', '3', '4']
-                }
+                #colorscale: 'Viridis',
+                #colorbar: {
+                #    title: 'GPU Count',
+                #    tickvals: [1, 2, 3, 4],
+                #    ticktext: ['1', '2', '3', '4']
+                #}
             },
             type: 'scatter3d'
         };
