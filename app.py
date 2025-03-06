@@ -66,13 +66,7 @@ app.clientside_callback(
             mode: 'markers',
             marker: {
                 size: filteredData.performance,
-                color: filteredData.gpuCount,
-                #colorscale: 'Viridis',
-                #colorbar: {
-                #    title: 'GPU Count',
-                #    tickvals: [1, 2, 3, 4],
-                #    ticktext: ['1', '2', '3', '4']
-                #}
+                color: filteredData.gpuCount
             },
             type: 'scatter3d'
         };
@@ -81,13 +75,10 @@ app.clientside_callback(
             title: 'Performance vs ntmpi and ntomp',
             scene: {
                 xaxis: {
-                    title: 'ntmpi',
-                    tickmode: 'array',
-                    tickvals: [2, 3, 4],
-                    ticktext: ['2', '3', '4']
+                    title: '# ntmpi',
                 },
                 yaxis: {
-                    title: 'ntomp'
+                    title: '# ntomp'
                 },
                 zaxis: {
                     title: 'Performance (ns/day)'
@@ -111,4 +102,3 @@ app.clientside_callback(
 # Run the app
 if __name__ == '__main__':
     app.run_server(debug=False)
-
