@@ -19,54 +19,32 @@ data_dict = df.to_dict('list')
 # App layout
 app.layout = html.Div([
     dcc.Graph(id='scatter-plot'),
-    dcc.Dropdown(
-        id='gpu-count-dropdown',
-        options=[
-            {'label': '1 GPU', 'value': 1},
-            {'label': '2 GPUs', 'value': 2},
-            {'label': '3 GPUs', 'value': 3},
-            {'label': '4 GPUs', 'value': 4}
-        ],
-        value=1,  # Default value
-        clearable=False,
-        style={'width': '50%'}
-    ),
     dcc.Store(id='scatter-data', data=data_dict)
 ])
 
 # Client-side callback (JavaScript function)
 app.clientside_callback(
     """
-    function(selectedGpuCount, data) {
+    function(data) {
         var ntmpi = data.ntmpi;
         var ntomp = data.ntomp;
         var performance = data.Performance;
         var gpuCount = data['GPU Count'];
 
-        var filteredData = {
-            ntmpi: [],
-            ntomp: [],
-            performance: [],
-            gpuCount: []
-        };
-
-        for (var i = 0; i < gpuCount.length; i++) {
-            if (gpuCount[i] == selectedGpuCount) {
-                filteredData.ntmpi.push(ntmpi[i]);
-                filteredData.ntomp.push(ntomp[i]);
-                filteredData.performance.push(performance[i]);
-                filteredData.gpuCount.push(gpuCount[i]);
-            }
-        }
-
         var trace = {
-            x: filteredData.ntmpi,
-            y: filteredData.ntomp,
-            z: filteredData.performance,
+            x: ntmpi,
+            y: ntomp,
+            z: performance,
             mode: 'markers',
             marker: {
-                size: filteredData.performance,
-                color: filteredData.gpuCount
+                size: 5,  // Set all markers to the same size
+                color: gpuCount,
+                colorscale: 'Viridis',
+                colorbar: {
+                    title: 'GPU Count',
+                    tickvals: [1, 2, 3, 4],
+                    ticktext: ['1', '2', '3', '4']
+                }
             },
             type: 'scatter3d'
         };
@@ -75,10 +53,13 @@ app.clientside_callback(
             title: 'Performance vs ntmpi and ntomp',
             scene: {
                 xaxis: {
-                    title: '# ntmpi',
+                    title: 'ntmpi',
+                    tickmode: 'array',
+                    tickvals: [2, 3, 4],
+                    ticktext: ['2', '3', '4']
                 },
                 yaxis: {
-                    title: '# ntomp'
+                    title: 'ntomp'
                 },
                 zaxis: {
                     title: 'Performance (ns/day)'
@@ -95,7 +76,6 @@ app.clientside_callback(
     }
     """,
     Output('scatter-plot', 'figure'),
-    [Input('gpu-count-dropdown', 'value')],
     [Input('scatter-data', 'data')]
 )
 
