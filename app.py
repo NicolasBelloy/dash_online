@@ -52,7 +52,7 @@ app.clientside_callback(
             title: 'Performance vs ntmpi and ntomp',
             scene: {
                 xaxis: {
-                    title: 'ntmpi',
+                    title: 'ntmpi'
                 },
                 yaxis: {
                     title: 'ntomp'
