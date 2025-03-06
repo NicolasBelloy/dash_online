@@ -1,6 +1,11 @@
 run_app:
-	python3 app.py & sleep 30
+	# Start the app in background and wait for it to be fully up
+	python3 app.py &
+	while ! nc -z 127.0.0.1 8050; do   
+		sleep 1
+	done
 
+	# Download the necessary files
 	wget -r http://127.0.0.1:8050/
 	wget -r http://127.0.0.1:8050/_dash-layout 
 	wget -r http://127.0.0.1:8050/_dash-dependencies
@@ -15,22 +20,22 @@ run_app:
 
 	wget -r http://127.0.0.1:8050/_dash-component-suites/plotly/package_data/plotly.min.js
 
-	mv 127.0.0.1:8050 pages_files
+	# Move and process the downloaded files
+	mkdir -p pages_files
+	mv 127.0.0.1:8050/* pages_files/
 	ls -a pages_files
-	#ls -a pages_files/assets
 
-	find pages_files -exec sed -i.bak 's|_dash-component-suites|dash_online\\/_dash-component-suites|g' {} \;
-	find pages_files -exec sed -i.bak 's|_dash-layout|dash_online/_dash-layout.json|g' {} \;
-	find pages_files -exec sed -i.bak 's|_dash-dependencies|dash_online/_dash-dependencies.json|g' {} \;
-	find pages_files -exec sed -i.bak 's|_reload-hash|dash_online/_reload-hash|g' {} \;
-	find pages_files -exec sed -i.bak 's|_dash-update-component|dash_online/_dash-update-component|g' {} \;
-	#find pages_files -exec sed -i.bak 's|assets|dash_online/assets|g' {} \;
+	find pages_files -type f -exec sed -i.bak 's|_dash-component-suites|dash_online/_dash-component-suites|g' {} \;
+	find pages_files -type f -exec sed -i.bak 's|_dash-layout|dash_online/_dash-layout.json|g' {} \;
+	find pages_files -type f -exec sed -i.bak 's|_dash-dependencies|dash_online/_dash-dependencies.json|g' {} \;
+	find pages_files -type f -exec sed -i.bak 's|_reload-hash|dash_online/_reload-hash|g' {} \;
+	find pages_files -type f -exec sed -i.bak 's|_dash-update-component|dash_online/_dash-update-component|g' {} \;
 
 	mv pages_files/_dash-layout pages_files/_dash-layout.json
 	mv pages_files/_dash-dependencies pages_files/_dash-dependencies.json
-	#mv assets/* pages_files/assets/
 
-	ps -C python -o pid= | xargs kill -9
+	# Terminate the specific app process gracefully
+	ps -C python -o pid= | xargs -r kill
 
 clean_dirs:
 	ls
