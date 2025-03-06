@@ -2,14 +2,16 @@ import dash
 from dash import dcc, html
 from dash.dependencies import Input, Output
 import numpy as np
+import pandas as pd
+import plotly.express as px
 
 # Initialize the Dash app
 app = dash.Dash(__name__)
 
+data_path = './data/performance_data.csv'
+
 # Sample data
-categories = ['A', 'B', 'C', 'D']
-values1 = np.random.randint(10, 100, size=4)
-values2 = np.random.randint(10, 100, size=4)
+df = pd.read_csv(data_path, delimiter=',')
 
 # App layout
 app.layout = html.Div([
