@@ -39,7 +39,6 @@ app.clientside_callback(
             marker: {
                 size: 5,  // Set all markers to the same size
                 color: gpuCount,
-                colorscale: 'Viridis',
                 colorbar: {
                     title: 'GPU Count',
                     tickvals: [1, 2, 3, 4],
@@ -54,9 +53,6 @@ app.clientside_callback(
             scene: {
                 xaxis: {
                     title: 'ntmpi',
-                    tickmode: 'array',
-                    tickvals: [2, 3, 4],
-                    ticktext: ['2', '3', '4']
                 },
                 yaxis: {
                     title: 'ntomp'
