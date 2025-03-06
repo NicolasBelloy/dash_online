@@ -19,12 +19,12 @@ run_app:
 	ls -a pages_files
 	ls -a pages_files/assets
 
-	find pages_files -exec sed -i.bak 's|_dash-component-suites|dash-online\\/_dash-component-suites|g' {} \;
-	find pages_files -exec sed -i.bak 's|_dash-layout|dash-online/_dash-layout.json|g' {} \;
-	find pages_files -exec sed -i.bak 's|_dash-dependencies|dash-online/_dash-dependencies.json|g' {} \;
-	find pages_files -exec sed -i.bak 's|_reload-hash|dash-online/_reload-hash|g' {} \;
-	find pages_files -exec sed -i.bak 's|_dash-update-component|dash-online/_dash-update-component|g' {} \;
-	find pages_files -exec sed -i.bak 's|assets|dash-online/assets|g' {} \;
+	find pages_files -exec sed -i.bak 's|_dash-component-suites|dash_online\\/_dash-component-suites|g' {} \;
+	find pages_files -exec sed -i.bak 's|_dash-layout|dash_online/_dash-layout.json|g' {} \;
+	find pages_files -exec sed -i.bak 's|_dash-dependencies|dash_online/_dash-dependencies.json|g' {} \;
+	find pages_files -exec sed -i.bak 's|_reload-hash|dash_online/_reload-hash|g' {} \;
+	find pages_files -exec sed -i.bak 's|_dash-update-component|dash_online/_dash-update-component|g' {} \;
+	find pages_files -exec sed -i.bak 's|assets|dash_online/assets|g' {} \;
 
 	mv pages_files/_dash-layout pages_files/_dash-layout.json
 	mv pages_files/_dash-dependencies pages_files/_dash-dependencies.json
